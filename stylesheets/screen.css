@@ -88,6 +88,43 @@ html {
 #chat input[type="button"] {
   float: left;
 }
+#chat .auto-size {
+  position: relative;
+  border: 1px solid #888;
+  background: #fff;
+}
+#chat .auto-size textarea, #chat .auto-size pre {
+  background: transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+#chat .auto-size textarea {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  border: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+#chat .auto-size pre {
+  display: none;
+}
+#chat .auto-size.active textarea {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  resize: none;
+}
+#chat .auto-size.active pre {
+  display: block;
+  visibility: hidden;
+}
 
 #msg {
   width: 400px;
