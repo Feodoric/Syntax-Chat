@@ -6,13 +6,16 @@ var Chattr = (function(){
     var myname = 'Test Guy',
         highlighting = (hljs ? true : false),
         sender,
-        receiver;
+        receiver,
+        chatId,
+        lastReceive = new Date();
 
     function initRequest(){
         sender = new Request.JSON({
             url: 'chat.php',
             onSuccess: function(r) {
-                appendMessage(r.text, r.isCode);
+                chatId = r.chatId;
+                appendMessage(r.text, r.isCode, r.timestamp);
             }
         });
     }
@@ -21,7 +24,8 @@ var Chattr = (function(){
         receiver = new Request.JSON({
             url: 'msgPoll.php',
             onSuccess: function(r) {
-                appendMessage(r.text, r.isCode, r.username);
+                lastReceive = r.timestamp;
+                appendMessage(r.text, r.isCode, r.timestamp, r.username);
                 setTimeout(msgPoll, 5000);
             },
             method: 'get'
@@ -30,12 +34,19 @@ var Chattr = (function(){
     }
 
     function msgPoll(){
-        receiver.send();
+        var get = 'chatId=' + encodeURIComponent(chatId)
+                + '&lastReceive=' +  encodeURIComponent(lastReceive);
+        
+        if (chatId){
+            receiver.send(get);
+        }
     }
     
     function sendMessage(text, isCode) {
         var post = 'text=' + encodeURIComponent(text)
-                 + '&isCode=' + encodeURIComponent(isCode);
+                 + '&isCode=' + encodeURIComponent(isCode)
+                 + '&chatId=' + encodeURIComponent(chatId)
+                 + '&username=' + encodeURIComponent(myname);
         sender.send(post);
     };
 
@@ -43,7 +54,7 @@ var Chattr = (function(){
         $(document.body).getElement('textarea').set('value', '');
     }
 
-    function appendMessage(text, isCode, username){
+    function appendMessage(text, isCode, timestamp, username){
         var insert = new Element('div', {
             'class': 'mymsg'
         });
@@ -54,7 +65,7 @@ var Chattr = (function(){
             insert.set('html', text);
         }
 
-        insert.grab(buildPreamble(username), 'top');
+        insert.grab(buildPreamble(username, timestamp), 'top');
         $('conversation').grab(insert, 'bottom');
     }
     
@@ -82,10 +93,9 @@ var Chattr = (function(){
         });
     }; 
 
-    function buildPreamble(username) {
-        var date = ' <' + new Date().toTimeString() + '>';
+    function buildPreamble(username, timestamp) {
         return new Element('span', {
-            html: (username ? username : myname) + date + ': ',
+            html: (username ? username : myname) + ' <' + timestamp + '> : ',
             'class': 'myname'
         });
     };
