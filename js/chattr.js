@@ -7,7 +7,8 @@ var Chattr = (function(){
         highlighting = (hljs ? true : false),
         sender,
         receiver,
-        chatId;
+        chatId,
+        lastReceive = new Date();
 
     function initRequest(){
         sender = new Request.JSON({
@@ -32,7 +33,12 @@ var Chattr = (function(){
     }
 
     function msgPoll(){
-        receiver.send();
+        var get = 'chatId=' + encodeURIComponent(chatId)
+                + '&lastReceive=' +  encodeURIComponent(lastReceive);
+        
+        if (chatId){
+            receiver.send(get);
+        }
     }
     
     function sendMessage(text, isCode) {
