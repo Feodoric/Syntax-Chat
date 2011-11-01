@@ -92,6 +92,7 @@ html {
   position: relative;
   border: 1px solid #888;
   background: #fff;
+  width: 800px;
 }
 #chat .auto-size textarea, #chat .auto-size pre {
   background: transparent;
