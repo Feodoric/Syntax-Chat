@@ -16,6 +16,10 @@ html{
     float: left;
     margin: 0 0 10px 0;
     overflow-y: scroll;
+
+    span.myname{
+        font-weight: bold;
+    }
 }
 
 #people{
