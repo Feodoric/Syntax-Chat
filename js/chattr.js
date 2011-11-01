@@ -12,7 +12,7 @@ var Chattr = (function(){
         sender = new Request.JSON({
             url: 'chat.php',
             onSuccess: function(r) {
-                appendMessage(r.text, r.isCode);
+                appendMessage(r.text, r.isCode, r.timestamp);
             }
         });
     }
@@ -21,7 +21,7 @@ var Chattr = (function(){
         receiver = new Request.JSON({
             url: 'msgPoll.php',
             onSuccess: function(r) {
-                appendMessage(r.text, r.isCode, r.username);
+                appendMessage(r.text, r.isCode, r.timestamp, r.username);
                 setTimeout(msgPoll, 5000);
             },
             method: 'get'
@@ -39,7 +39,7 @@ var Chattr = (function(){
         sender.send(post);
     };
 
-    function appendMessage(text, isCode, username){
+    function appendMessage(text, isCode, timestamp, username){
         var insert = new Element('div', {
             'class': 'mymsg'
         });
@@ -50,7 +50,7 @@ var Chattr = (function(){
             insert.set('html', text);
         }
 
-        insert.grab(buildPreamble(username), 'top');
+        insert.grab(buildPreamble(username, timestamp), 'top');
         $('conversation').grab(insert, 'bottom');
     }
     
@@ -77,10 +77,9 @@ var Chattr = (function(){
         });
     }; 
 
-    function buildPreamble(username) {
-        var date = ' <' + new Date().toTimeString() + '>';
+    function buildPreamble(username, timestamp) {
         return new Element('span', {
-            html: (username ? username : myname) + date + ': ',
+            html: (username ? username : myname) + ' <' + timestamp + '> : ',
             'class': 'myname'
         });
     };
