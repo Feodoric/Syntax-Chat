@@ -39,6 +39,10 @@ var Chattr = (function(){
         sender.send(post);
     };
 
+    function resetTextArea(){
+        $(document.body).getElement('textarea').set('value', '');
+    }
+
     function appendMessage(text, isCode, username){
         var insert = new Element('div', {
             'class': 'mymsg'
@@ -74,6 +78,7 @@ var Chattr = (function(){
             }
             
             sendMessage(msg, isCode);
+            resetTextArea();
         });
     }; 
 
