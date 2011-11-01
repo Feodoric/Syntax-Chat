@@ -6,12 +6,14 @@ var Chattr = (function(){
     var myname = 'Test Guy',
         highlighting = (hljs ? true : false),
         sender,
-        receiver;
+        receiver,
+        chatId;
 
     function initRequest(){
         sender = new Request.JSON({
             url: 'chat.php',
             onSuccess: function(r) {
+                chatId = r.chatId;
                 appendMessage(r.text, r.isCode, r.timestamp);
             }
         });
@@ -35,7 +37,9 @@ var Chattr = (function(){
     
     function sendMessage(text, isCode) {
         var post = 'text=' + encodeURIComponent(text)
-                 + '&isCode=' + encodeURIComponent(isCode);
+                 + '&isCode=' + encodeURIComponent(isCode)
+                 + '&chatId=' + encodeURIComponent(chatId)
+                 + '&username=' + encodeURIComponent(myname);
         sender.send(post);
     };
 
