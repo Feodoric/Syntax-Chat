@@ -24,6 +24,7 @@ var Chattr = (function(){
         receiver = new Request.JSON({
             url: 'msgPoll.php',
             onSuccess: function(r) {
+                lastReceive = r.timestamp;
                 appendMessage(r.text, r.isCode, r.timestamp, r.username);
                 setTimeout(msgPoll, 5000);
             },
