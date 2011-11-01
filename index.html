@@ -8,6 +8,7 @@
     <script src="/js/highlight/highlight.pack.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
     <script src="/js/chattr.js"></script>
+    <script src="/js/chattr/interface.js"></script>
   </head>
 
   <body>
@@ -16,7 +17,10 @@
 
     <form id="chat">
       <fieldset>
-        <textarea id="msg"></textarea>
+        <div class="auto-size">
+          <pre><span></span><br></pre>
+          <textarea id="msg"></textarea>
+        </div>
         <input type="button" name="send" value="send" id="send">
         <input type="button" name="sendcode" value="send code" id="sendcode">
       </fieldset>
