@@ -3,11 +3,43 @@ $(document).addEvent('domready', function(){
 });
 
 var Chattr = (function(){
-    var username = 'Test Guy',
+    var myname = 'Test Guy',
         highlighting = (hljs ? true : false),
-        preamble;
+        sender,
+        receiver;
 
+    function initRequest(){
+        sender = new Request.JSON({
+            url: 'chat.php',
+            onSuccess: function(r) {
+                appendMessage(r.text, r.isCode);
+            }
+        });
+    }
+
+    function initPoller(){
+        receiver = new Request.JSON({
+            url: 'msgPoll.php',
+            onSuccess: function(r) {
+                appendMessage(r.text, r.isCode, r.username);
+                setTimeout(msgPoll, 5000);
+            },
+            method: 'get'
+        });
+        msgPoll();
+    }
+
+    function msgPoll(){
+        receiver.send();
+    }
+    
     function sendMessage(text, isCode) {
+        var post = 'text=' + encodeURIComponent(text)
+                 + '&isCode=' + encodeURIComponent(isCode);
+        sender.send(post);
+    };
+
+    function appendMessage(text, isCode, username){
         var insert = new Element('div', {
             'class': 'mymsg'
         });
@@ -18,10 +50,10 @@ var Chattr = (function(){
             insert.set('html', text);
         }
 
-        insert.grab(preamble.clone(), 'top');
+        insert.grab(buildPreamble(username), 'top');
         $('conversation').grab(insert, 'bottom');
-    };
-
+    }
+    
     function wrapPre(text){
         var code = new Element('code', {
             'html': hljs.highlightAuto(text).value
@@ -45,17 +77,20 @@ var Chattr = (function(){
         });
     }; 
 
-    function buildPreamble() {
-        preamble = new Element('span', {
-            html: username + ': ',
+    function buildPreamble(username) {
+        var date = ' <' + new Date().toTimeString() + '>';
+        return new Element('span', {
+            html: (username ? username : myname) + date + ': ',
             'class': 'myname'
         });
     };
+
     
     return {
         init: function() {
             setupEvents();
-            buildPreamble();
+            initRequest();
+            initPoller();
         }
     };
     
