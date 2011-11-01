@@ -1,7 +1,5 @@
-Syntax-Chat
-===========
-(or Chattr, or whatever we want to call it)
--------------------------------------------
+Syntax-Chat *(or Chattr, or whatever we want to call it)*
+=========================================================
 
 Installation:
 -------------
