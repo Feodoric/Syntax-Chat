@@ -35,10 +35,13 @@ var Chattr = (function(){
 
     function msgPoll(){
         var get = 'chatId=' + encodeURIComponent(chatId)
-                + '&lastReceive=' +  encodeURIComponent(lastReceive);
+                + '&lastReceive=' +  encodeURIComponent(lastReceive)
+                + '&username=' + encodeURIComponent(myname);
         
         if (chatId){
             receiver.send(get);
+        } else {
+            setTimeout(msgPoll, 5000);
         }
     }
     
