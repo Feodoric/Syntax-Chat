@@ -25,7 +25,10 @@ var Chattr = (function(){
             url: 'msgPoll.php',
             onSuccess: function(r) {
                 lastReceive = r.timestamp;
-                appendMessage(r.text, r.isCode, r.timestamp, r.username);
+                for (m in r.messages){
+                    appendMessage(m.text, m.isCode, m.timestamp, m.username);                    
+                }
+
                 setTimeout(msgPoll, 5000);
             },
             method: 'get'
