@@ -24,7 +24,7 @@ $collection = $db->chats;
 $ts = new MongoDate();
 
 
-if (isset($_POST['chatId'])){
+if (isset($_POST['chatId']) && $_POST['chatId'] !== 'undefined'){
 	$push = true;
 	$chatId = $_POST['chatId'];
 } else {
@@ -53,6 +53,6 @@ if ($push){
 echo json_encode(array(
 	'text' => $_POST['text'],
 	'isCode' => $_POST['isCode'],
-	'timestamp' => date('h:i:s', $ts->sec),
+	'timestamp' => date('Y-M-d h:i:s', $ts->sec),
 	'chatId' => $chatId
 ));
