@@ -57,7 +57,14 @@ var Chattr = (function(){
     };
 
     function resetTextArea(){
-        $(document.body).getElement('textarea').set('value', '');
+        $('chat').getElement('textarea').set('value', '');
+        $('chat').getElement('span').textContent = '';
+        // TODO: extract this so it is easily accessible to both Chattr and
+        // Interface
+        $$('#conversation, #people').setStyle(
+            'margin-bottom', 
+            $('chat').getSize().y
+        );
     }
 
     function appendMessage(text, isCode, timestamp, username){

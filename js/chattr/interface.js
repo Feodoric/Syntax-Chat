@@ -10,6 +10,10 @@ var Interface = (function(){
 
         area.addEvent('input', function() {
             span.textContent = area.value;
+            $$('#conversation, #people').setStyle(
+                'margin-bottom', 
+                $('chat').getSize().y
+            );
         });
         container.addClass('active');
     }

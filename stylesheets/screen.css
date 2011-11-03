@@ -59,16 +59,25 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 html {
-  padding: 20px;
+  padding: 20px 20px 0;
+}
+
+body {
+  width: 100%;
+  max-width: 1014px;
+  margin: 0 auto;
+}
+
+#conversation, #people {
+  margin-bottom: 30px;
 }
 
 #conversation {
   width: 800px;
-  height: 600px;
+  min-height: 600px;
   border: 1px solid black;
   float: left;
   margin: 0 0 10px 0;
-  overflow-y: scroll;
 }
 #conversation span.myname {
   font-weight: bold;
@@ -77,13 +86,27 @@ html {
 #people {
   border: 1px solid black;
   margin-left: 10px;
-  height: 600px;
+  min-height: 600px;
   width: 200px;
   float: left;
 }
 
 #chat {
-  clear: left;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 10px;
+  background: #fff;
+  -moz-box-shadow: 0px 0px 5px #333333;
+  -webkit-box-shadow: 0px 0px 5px #333333;
+  -o-box-shadow: 0px 0px 5px #333333;
+  box-shadow: 0px 0px 5px #333333;
+}
+#chat fieldset {
+  width: 100%;
+  max-width: 1014px;
+  margin: 0 auto;
 }
 #chat input[type="button"] {
   float: left;
