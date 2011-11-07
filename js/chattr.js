@@ -12,7 +12,7 @@ var Chattr = (function(){
 
     function initRequest(){
         sender = new Request.JSON({
-            url: 'chat.php',
+            url: 'server/chat.php',
             onSuccess: function(r) {
                 chatId = r.chatId;
                 appendMessage(r.text, r.isCode, r.timestamp);
@@ -22,7 +22,7 @@ var Chattr = (function(){
 
     function initPoller(){
         receiver = new Request.JSON({
-            url: 'msgPoll.php',
+            url: 'server/msgPoll.php',
             onSuccess: function(r) {
                 lastReceive = r.timestamp;
                 for (m in r.messages){
