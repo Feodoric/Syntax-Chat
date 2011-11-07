@@ -35,9 +35,14 @@ body {
 #people{
     border: 1px solid black;
     margin-left: 10px;
-    min-height: 600px;
-    width: 200px;
+    min-height: 580px;
+    width: 180px;
     float: left;
+    padding: 10px;
+
+    .me{
+        font-weight: bold;
+    }
 }
 
 #chat{

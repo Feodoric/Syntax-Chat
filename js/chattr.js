@@ -3,13 +3,21 @@ $(document).addEvent('domready', function(){
 });
 
 var Chattr = (function(){
-    var myname = 'Test Guy',
+    var myname = 'anon',
         highlighting = (hljs ? true : false),
         sender,
         receiver,
         chatId,
-        lastReceive = new Date();
+        lastReceive = new Date(),
+        nameEl;
 
+    function addToRoom(name, self){
+        nameEl = new Element('div', {
+            'html': name,
+            'class': (self ? 'me' : 'them')
+        }).inject($('people'));
+    }
+    
     function initRequest(){
         sender = new Request.JSON({
             url: 'server/chat.php',
@@ -119,6 +127,7 @@ var Chattr = (function(){
             setupEvents();
             initRequest();
             initPoller();
+            addToRoom(true);
         }
     };
     
