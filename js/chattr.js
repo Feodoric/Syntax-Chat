@@ -17,23 +17,33 @@ var Chattr = (function(){
             'class': (self ? 'me' : 'them')
         }).inject($('people'));
     }
-
+    
     function initId(){
         var req = new URI(window.location.href),
-            incomingId = req.get('data').chatid;
+            incomingId = req.get('data').chatId;
         
         if (incomingId){
-            chatId = incomingId;
+            setId(incomingId);
         } else {
             new Request.JSON({
                 url: 'server/idgen.php',
                 async: 'false',
                 onSuccess: function(r){
-                    chatId = r.chatId;
-                    systemMessage('Your chat id is ' + chatId);
+                    setId(r.chatId);
                 }
             }).send();
         }
+    }
+
+    function setId(id){
+        var uri = new URI(window.location),
+            link = uri.get('scheme') + '://'
+                 + uri.get('host')
+                 + '?chatId=' + id;
+        
+        chatId = id;
+        systemMessage('Your chat id is ' + chatId);
+        systemMessage('Invite with: <a href="' + link +'">' + link + '</a>');
     }
     
     function systemMessage(text){
@@ -165,7 +175,12 @@ var Chattr = (function(){
             initPoller();
             addToRoom(myname, true);
             initId();
+        },
+
+        changeName: function (newName) {
+            nameEl.set('html', newName);
         }
+
     };
     
 }());
