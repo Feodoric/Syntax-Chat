@@ -82,6 +82,10 @@ body {
 #conversation span.myname {
   font-weight: bold;
 }
+#conversation .system {
+  color: orange;
+  font-weight: bold;
+}
 
 #people {
   border: 1px solid black;
