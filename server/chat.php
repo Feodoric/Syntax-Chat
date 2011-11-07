@@ -29,7 +29,8 @@ if (isset($_POST['chatId']) && $_POST['chatId'] !== 'undefined'){
 	$chatId = $_POST['chatId'];
 } else {
 	$push = false;
-	$chatId = uniqid();
+	require_once('ChatId.php');
+	$chatId = ChatId::getId();
 }
 
 $message = array(
