@@ -7,6 +7,7 @@
     <link href="/js/highlight/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css" />
     <script src="/js/highlight/highlight.pack.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
+    <script src="/js/mootools-more-1.4.0.1.js"></script>
     <script src="/js/chattr.js"></script>
     <script src="/js/chattr/interface.js"></script>
   </head>
