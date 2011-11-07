@@ -17,13 +17,42 @@ var Chattr = (function(){
             'class': (self ? 'me' : 'them')
         }).inject($('people'));
     }
+
+    function initId(){
+        var req = new URI(window.location.href),
+            incomingId = req.get('data').chatid;
+        
+        if (incomingId){
+            chatId = incomingId;
+        } else {
+            new Request.JSON({
+                url: 'server/idgen.php',
+                async: 'false',
+                onSuccess: function(r){
+                    chatId = r.chatId;
+                    systemMessage('Your chat id is ' + chatId);
+                }
+            }).send();
+        }
+    }
+    
+    function systemMessage(text){
+        var insert = new Element('div', {
+            'class': 'system'
+        });
+
+        insert.set('html', '****** ' + text + ' ******');
+        appendMessage(insert);
+    }
     
     function initRequest(){
         sender = new Request.JSON({
             url: 'server/chat.php',
             onSuccess: function(r) {
+                var msg;
                 chatId = r.chatId;
-                appendMessage(r.text, r.isCode, r.timestamp);
+                msg = buildMessage(r.text, r.isCode, r.timestamp);
+                appendMessage(msg);
             }
         });
     }
@@ -34,7 +63,9 @@ var Chattr = (function(){
             onSuccess: function(r) {
                 lastReceive = r.timestamp;
                 for (m in r.messages){
-                    appendMessage(m.text, m.isCode, m.timestamp, m.username);                    
+                    var msg;
+                    msg = buildMessage(m.text, m.isCode, m.timestamp, m.username);
+                    appendMessage(msg);
                 }
 
                 setTimeout(msgPoll, 5000);
@@ -75,7 +106,7 @@ var Chattr = (function(){
         );
     }
 
-    function appendMessage(text, isCode, timestamp, username){
+    function buildMessage(text, isCode, timestamp, username){
         var insert = new Element('div', {
             'class': 'mymsg'
         });
@@ -87,7 +118,12 @@ var Chattr = (function(){
         }
 
         insert.grab(buildPreamble(username, timestamp), 'top');
-        $('conversation').grab(insert, 'bottom');
+        return insert;
+
+    }
+
+    function appendMessage(msg){
+        $('conversation').grab(msg, 'bottom');        
     }
     
     function wrapPre(text){
@@ -128,6 +164,7 @@ var Chattr = (function(){
             initRequest();
             initPoller();
             addToRoom(myname, true);
+            initId();
         }
     };
     
