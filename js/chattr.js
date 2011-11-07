@@ -127,7 +127,7 @@ var Chattr = (function(){
             setupEvents();
             initRequest();
             initPoller();
-            addToRoom(true);
+            addToRoom(myname, true);
         }
     };
     
