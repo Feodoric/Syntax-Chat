@@ -175,9 +175,11 @@ var Chattr = (function(){
             initPoller();
             addToRoom(myname, true);
             initId();
+            Chattr.changeName(prompt('Enter your username:'));
         },
 
         changeName: function (newName) {
+            myname = newName;
             nameEl.set('html', newName);
         }
 
